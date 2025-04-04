@@ -14,7 +14,6 @@
     .search-btn i {
         display: inline;
         margin-right: 0.5rem;
-    font-size: 16px;  /* Ensure uniform icon size */
     }
 
     .search-inp {
@@ -40,8 +39,8 @@
             </div>
 
             <div class="navbar-nav ms-auto">
-                <form class="d-flex" role="search">
-                    <input class="form-control me-2 search-inp" type="search" placeholder="Search destinations">
+                <form action="/listing/search" method="GET" class="d-flex" role="search">
+                    <input class="form-control me-2 search-inp" type="search" name="query" placeholder="Search destinations">
                     <button class="btn search-btn" type="submit"><i
                             class="fa-solid fa-magnifying-glass"></i>Search</button>
                 </form>
@@ -74,5 +73,3 @@
         navbar.classList.remove('no-border-bottom'); // Restore the border-bottom when menu closes
     });
 </script>
-
-
