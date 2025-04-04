@@ -28,6 +28,28 @@ module.exports.showListing = async (req, res) => {
     res.render("listing/show.ejs", { listing });
 };
 
+// Search Listings
+module.exports.searchListings = async (req, res) => {
+    try {
+        let searchQuery = req.query.query;
+
+        // Use regex to perform case-insensitive title search
+        let listings = await Listing.find({ title: new RegExp(searchQuery, "i") });
+
+        if (listings.length === 0) {
+            req.flash("error", "No listings found with that title.");
+            return res.redirect("/listing");
+        }
+
+        res.render("listing/allListing", { allListing: listings });
+    } catch (err) {
+        console.error(err);
+        req.flash("error", "Something went wrong. Try again!");
+        res.redirect("/listing");
+    }
+};
+
+
 // Create Listing (Without Saving GeoJSON)
 module.exports.createListing = async (req, res, next) => {
     let newListing = new Listing(req.body.listing);
