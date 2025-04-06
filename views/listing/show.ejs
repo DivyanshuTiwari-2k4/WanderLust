@@ -99,9 +99,15 @@
                                     <%}%>
                             </div>
                 </div>
-                <gmp-map class="mt-3 mb-5" center="20.592487335205078,78.96243286132812" zoom="14" map-id="DEMO_MAP_ID"
-                    style="width: 65vw; height: 400px; margin:auto;">
-                    <gmp-advanced-marker position="20.592487335205078,78.96243286132812"
-                        title="My location"></gmp-advanced-marker>
-                </gmp-map>
+                <gmp-map class="mt-3 mb-5"
+                center="<%= listing.geoCoordinates?.coordinates[1] || 20.592487335205078 %>,<%= listing.geoCoordinates?.coordinates[0] || 78.96243286132812 %>"
+                zoom="14"
+                map-id="DEMO_MAP_ID"
+                style="width: 65vw; height: 400px; margin:auto;">
+                
+                <gmp-advanced-marker
+                    position="<%= listing.geoCoordinates?.coordinates[1] || 20.592487335205078 %>,<%= listing.geoCoordinates?.coordinates[0] || 78.96243286132812 %>"
+                    title="<%= listing.title %>">
+                </gmp-advanced-marker>
+            </gmp-map>
     </div>
