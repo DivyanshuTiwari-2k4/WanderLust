@@ -1,5 +1,28 @@
 <% layout("/layouts/boilerplate")%>
 
+    <style>
+        /* Fix star overflow in review cards */
+        .star-container {
+            max-width: 100%;
+            overflow: hidden;
+        }
+
+        .starability-result {
+            word-break: break-word;
+            white-space: normal;
+            max-width: 100%;
+        }
+
+
+        /* Optional: Make stars a bit smaller on small screens */
+        @media (max-width: 576px) {
+            .starability-result {
+                font-size: 0.9rem;
+            }
+        }
+    </style>
+
+
     <div class="row mt-3">
         <div class="col-8 offset-3 ">
             <h3>
@@ -30,14 +53,15 @@
         <br>
 
         <% if(currUser && currUser._id.equals(listing.owner._id)){ %>
-            <div class="btns">
-                <a href="/listing/<%= listing._id%>/edit" class="btn btn-dark col-1 offset-3 edit-btn">
-                    Edit
-                </a>
-                <form method="post" action="/listing/<%=listing._id%>?_method=DELETE">
-                    <button class="btn btn-dark offset-5">Delete</button>
-                </form>
+            <div class="row my-3">
+                <div class="col-6 offset-3 d-flex gap-2">
+                    <a href="/listing/<%= listing._id%>/edit" class="btn btn-dark edit-btn">Edit</a>
+                    <form method="post" action="/listing/<%=listing._id%>?_method=DELETE">
+                        <button class="btn btn-dark">Delete</button>
+                    </form>
+                </div>
             </div>
+
             <%}%>
 
                 <div class="col-8 offset-3 mb-3">
@@ -82,32 +106,35 @@
                                         <div class="card-body">
                                             <h5 class="card-title">@<%= review.author.username %>
                                             </h5>
-                                            <p class="starability-result card-text" data-rating="<%= review.rating %>">
-                                            </p>
+
+                                            <div class="d-flex flex-wrap align-items-center star-container mb-2">
+                                                <p class="starability-result mb-0" data-rating="<%= review.rating %>">
+                                                </p>
+                                            </div>
+
                                             <p class="card-text mb-1">
                                                 <%= review.comment %>
                                             </p>
-                                            <% if(currUser && review.author._id.equals(currUser._id)) { %>  
-                                            <form
-                                                action="/listing/<%=listing._id%>/reviews/<%=review._id%>?_method=Delete"
-                                                method="post" class="mb-3">
-                                                <button class="btn btn-sm btn-dark">Delete</button>
-                                            </form>
-                                            <%}%>
+                                            <% if(currUser && review.author._id.equals(currUser._id)) { %>
+                                                <form
+                                                    action="/listing/<%=listing._id%>/reviews/<%=review._id%>?_method=Delete"
+                                                    method="post" class="mb-3">
+                                                    <button class="btn btn-sm btn-dark">Delete</button>
+                                                </form>
+                                                <%}%>
                                         </div>
                                     </div>
                                     <%}%>
                             </div>
                 </div>
                 <gmp-map class="mt-3 mb-5"
-                center="<%= listing.geoCoordinates?.coordinates[1] || 20.592487335205078 %>,<%= listing.geoCoordinates?.coordinates[0] || 78.96243286132812 %>"
-                zoom="14"
-                map-id="DEMO_MAP_ID"
-                style="width: 65vw; height: 400px; margin:auto;">
-                
-                <gmp-advanced-marker
-                    position="<%= listing.geoCoordinates?.coordinates[1] || 20.592487335205078 %>,<%= listing.geoCoordinates?.coordinates[0] || 78.96243286132812 %>"
-                    title="<%= listing.title %>">
-                </gmp-advanced-marker>
-            </gmp-map>
+                    center="<%= listing.geoCoordinates?.coordinates[1] || 20.592487335205078 %>,<%= listing.geoCoordinates?.coordinates[0] || 78.96243286132812 %>"
+                    zoom="14" map-id="DEMO_MAP_ID" style="width: 65vw; height: 400px; margin:auto;">
+
+                    <gmp-advanced-marker
+                        position="<%= listing.geoCoordinates?.coordinates[1] || 20.592487335205078 %>,<%= listing.geoCoordinates?.coordinates[0] || 78.96243286132812 %>"
+                        title="<%= listing.title %>">
+                    </gmp-advanced-marker>
+                </gmp-map>
+
     </div>
